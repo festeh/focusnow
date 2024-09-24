@@ -14,6 +14,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.*
+import kotlinx.coroutines.delay
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,9 +45,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun FocusButton() {
+fun FocusButton(onClick: () -> Unit) {
     Button(
-        onClick = { /* Do something! */ },
+        onClick = onClick,
     ) {
         Text(text = "Focus")
     }
@@ -53,6 +55,8 @@ fun FocusButton() {
 
 @Composable
 fun FocusApp(greetingName: String) {
+    var isFocusing by remember { mutableStateOf(false) }
+
     FocusNowTheme {
         Box(
             modifier = Modifier
@@ -61,7 +65,11 @@ fun FocusApp(greetingName: String) {
             contentAlignment = Alignment.Center
         ) {
             TimeText()
-            FocusButton()
+            if (isFocusing) {
+                FocusingScreen { isFocusing = false }
+            } else {
+                FocusButton { isFocusing = true }
+            }
         }
     }
 }
@@ -73,6 +81,21 @@ fun Greeting(greetingName: String) {
         textAlign = TextAlign.Center,
         color = MaterialTheme.colors.primary,
         text = stringResource(R.string.hello_world, greetingName)
+    )
+}
+
+@Composable
+fun FocusingScreen(onFinish: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(5000)
+        onFinish()
+    }
+    
+    Text(
+        text = "Focusing...",
+        style = MaterialTheme.typography.body1,
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colors.primary
     )
 }
 
