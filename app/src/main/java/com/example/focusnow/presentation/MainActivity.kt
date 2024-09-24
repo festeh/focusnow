@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
@@ -36,13 +37,22 @@ class MainActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
-            WearApp("Android")
+            FocusApp("Душа нараспашку")
         }
     }
 }
 
 @Composable
-fun WearApp(greetingName: String) {
+fun FocusButton() {
+    Button(
+        onClick = { /* Do something! */ },
+    ) {
+        Text(text = "Focus")
+    }
+}
+
+@Composable
+fun FocusApp(greetingName: String) {
     FocusNowTheme {
         Box(
             modifier = Modifier
@@ -51,7 +61,7 @@ fun WearApp(greetingName: String) {
             contentAlignment = Alignment.Center
         ) {
             TimeText()
-            Greeting(greetingName = greetingName)
+            FocusButton()
         }
     }
 }
@@ -69,5 +79,5 @@ fun Greeting(greetingName: String) {
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    WearApp("Preview Android")
+    FocusApp("Preview Android")
 }
