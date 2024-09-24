@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
-            FocusApp("Душа нараспашку")
+            FocusApp("Hello Android")
         }
     }
 }
