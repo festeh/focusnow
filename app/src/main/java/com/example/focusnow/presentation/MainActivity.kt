@@ -27,6 +27,7 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.focusnow.BuildConfig
 import com.example.focusnow.R
 import com.example.focusnow.presentation.theme.FocusNowTheme
 import kotlinx.coroutines.Dispatchers
