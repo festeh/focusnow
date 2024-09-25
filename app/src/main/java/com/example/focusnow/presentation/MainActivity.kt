@@ -29,6 +29,10 @@ import androidx.wear.compose.material.TimeText
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.focusnow.R
 import com.example.focusnow.presentation.theme.FocusNowTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +48,36 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+suspend fun sendFocusRequest() {
+    withContext(Dispatchers.IO) {
+        val url = URL("http://foobar.com/focus")
+        val connection = url.openConnection() as HttpURLConnection
+        try {
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.connect()
+            
+            val responseCode = connection.responseCode
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                // Handle error
+                println("HTTP error: $responseCode")
+            }
+        } finally {
+            connection.disconnect()
+        }
+    }
+}
+
 @Composable
 fun FocusButton(onClick: () -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
     Button(
-        onClick = onClick,
+        onClick = {
+            coroutineScope.launch {
+                sendFocusRequest()
+                onClick()
+            }
+        },
     ) {
         Text(text = "Focus")
     }
