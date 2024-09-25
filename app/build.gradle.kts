@@ -1,6 +1,17 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+}
+
+val secretPropertiesFile = rootProject.file("secret.properties")
+val secretProperties = Properties()
+if (secretPropertiesFile.exists()) {
+    secretProperties.load(FileInputStream(secretPropertiesFile))
+} else {
+    secretProperties.setProperty("FOCUS_API_URL", "https://default-url.com/focus")
 }
 
 android {
@@ -17,6 +28,7 @@ android {
             useSupportLibrary = true
         }
 
+        buildConfigField("String", "FOCUS_API_URL", secretProperties["FOCUS_API_URL"] as String)
     }
 
     buildTypes {
