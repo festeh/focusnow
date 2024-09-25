@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
 
 suspend fun sendFocusRequest() {
     withContext(Dispatchers.IO) {
-        val url = URL("http://foobar.com/focus")
+        val url = URL(BuildConfig.FOCUS_API_URL)
         val connection = url.openConnection() as HttpURLConnection
         try {
             connection.requestMethod = "POST"
